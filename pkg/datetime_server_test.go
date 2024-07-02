@@ -9,7 +9,7 @@ import (
 )
 
 func TestDateTimeHandler(t *testing.T) {
-	req, err := http.NewRequest("GET", "/datetime", nil)
+	req, err := http.NewRequest(http.MethodGet, "/datetime", nil)
 	if err != nil {
 		t.Fatal(err)
 	}

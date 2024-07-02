@@ -18,6 +18,7 @@ func DateTimeHandler(w http.ResponseWriter, r *http.Request) {
 		Time: currentTime.Format("15:04:05"),
 	}
 	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
 	if json.NewEncoder(w).Encode(response) != nil {
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 	}
