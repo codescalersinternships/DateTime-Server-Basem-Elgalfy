@@ -1,6 +1,6 @@
 
 
-FROM golang:1.22
+FROM golang:1.22-alpine AS build
 
 WORKDIR /app
 
@@ -12,8 +12,14 @@ COPY . .
 
 RUN CGO_ENABLED=0 GOOS=linux go build  -o /goapp ./cmd/gin
 
+FROM alpine:edge
+
+WORKDIR /app
+
+COPY --from=build /goapp .
+
 EXPOSE 8080
 
-CMD ["/goapp"]
+CMD ["./goapp"]
 
 
