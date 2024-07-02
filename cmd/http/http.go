@@ -3,12 +3,12 @@ package main
 import (
 	"log"
 
-	dateTime "github.com/codescalersinternships/DateTime-Server-Basem-Elgalfy/pkg"
+	dateTimeHttp "github.com/codescalersinternships/DateTime-Server-Basem-Elgalfy/pkg/http"
 )
 
 func main() {
 
 	log.Println("Starting server on port 8080...")
-	log.Fatal(dateTime.StartServer())
+	log.Fatal(dateTimeHttp.StartServer())
 
 }

@@ -1,10 +1,15 @@
-package dateTime
+package dateTimeGin
 
 import (
 	"time"
 
 	"github.com/gin-gonic/gin"
 )
+
+type DateTimeResponse struct {
+	Date string `json:"date"`
+	Time string `json:"time"`
+}
 
 func GinDateTimeHandler(c *gin.Context) {
 	currentTime := time.Now()
