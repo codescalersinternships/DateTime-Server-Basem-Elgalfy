@@ -9,6 +9,9 @@ format:
 lint:
 	golangci-lint run ./...
 
+test:
+	go test ./pkg/...
+
 build-docker-images:
 	docker-compose build
 
