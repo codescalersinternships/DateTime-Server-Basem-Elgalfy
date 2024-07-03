@@ -7,11 +7,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// DateTimeResponse is the response struct for the DateTimeHandler
 type DateTimeResponse struct {
 	Date string `json:"date"`
 	Time string `json:"time"`
 }
 
+// GinDateTimeHandler is the handler for the /datetime endpoint
 func GinDateTimeHandler(c *gin.Context) {
 	currentTime := time.Now()
 	response := DateTimeResponse{
