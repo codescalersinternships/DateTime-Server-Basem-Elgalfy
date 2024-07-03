@@ -2,6 +2,13 @@ name: golangci-lint
 on: push
 
 jobs:
+  makefile:
+    name: makefile
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: makefile
+        run: make run-docker-images && make test && make lint && make fmt
   golangci:
     name: lint
     runs-on: ubuntu-latest
