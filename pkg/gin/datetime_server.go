@@ -1,3 +1,4 @@
+// package dateTimeGin is a server that returns dateTime in the standard JSON when requested by /dateTime
 package dateTimeGin
 
 import (
@@ -21,6 +22,7 @@ func GinDateTimeHandler(c *gin.Context) {
 	c.JSON(200, response)
 }
 
+// StartGinServer starts the server
 func StartGinServer() error {
 	r := gin.Default()
 	r.GET("/datetime", GinDateTimeHandler)
