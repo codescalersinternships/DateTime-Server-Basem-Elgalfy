@@ -4,7 +4,7 @@ build-http:
 	go build ./cmd/http/http.go
 
 format:
-	gofmt ./...
+	gofmt ./
 
 lint:
 	golangci-lint run ./...
