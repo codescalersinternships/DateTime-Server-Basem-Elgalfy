@@ -24,12 +24,16 @@ func TestDateTimeHandler(t *testing.T) {
 
 	assert.Equal(t, http.StatusOK, rr.Code)
 
-	expectedDate := time.Now().Format("02-01-2006")
-	expectedTime := time.Now().Format("15:04:05")
+	expectedDateTime := time.Now()
 
 	var response DateTimeResponse
 	assert.NoError(t, json.NewDecoder(rr.Body).Decode(&response), "could not decode response body")
 
-	assert.Equal(t, expectedDate, response.Date)
-	assert.Equal(t, expectedTime[:5], response.Time[:5])
+	responseDateTimeStr := response.Date + " " + response.Time
+
+	responseDateTime, err := time.ParseInLocation("02-01-2006 15:04:05", responseDateTimeStr, time.Local)
+
+	assert.NoError(t, err)
+
+	assert.True(t, responseDateTime.After(expectedDateTime.Add(-5*time.Second)) && responseDateTime.Before(expectedDateTime.Add(5*time.Second)))
 }

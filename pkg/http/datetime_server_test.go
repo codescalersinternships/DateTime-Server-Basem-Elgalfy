@@ -23,18 +23,21 @@ func TestDateTimeHandler(t *testing.T) {
 		t.Errorf("handler returned wrong status code: got %v want %v", status, http.StatusOK)
 	}
 
-	expectedDate := time.Now().Format("02-01-2006")
-	expectedTime := time.Now().Format("15:04:05")
+	expectedDateTime := time.Now()
 
 	var response DateTimeResponse
 	if err := json.NewDecoder(rr.Body).Decode(&response); err != nil {
 		t.Fatal(err)
 	}
 
-	if response.Date != expectedDate {
-		t.Errorf("handler returned unexpected date: got %v want %v", response.Date, expectedDate)
+	responseDateTimeStr := response.Date + " " + response.Time
+
+	responseDateTime, err := time.ParseInLocation("02-01-2006 15:04:05", responseDateTimeStr, time.Local)
+	if err != nil {
+		t.Fatalf("could not parse response time: %v", err)
 	}
-	if response.Time[:5] != expectedTime[:5] {
-		t.Errorf("handler returned unexpected time: got %v want %v", response.Time, expectedTime)
+
+	if responseDateTime.Before(expectedDateTime.Add(-5*time.Second)) || responseDateTime.After(expectedDateTime.Add(5*time.Second)) {
+		t.Errorf("response time is not within 5 seconds of the expected time: got %v want %v", responseDateTime, expectedDateTime)
 	}
 }
