@@ -8,7 +8,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: makefile
-        run: make build-docker-images && make test && make lint && make fmt
+        run: make build-docker-images && make test && make format
   golangci:
     name: lint
     runs-on: ubuntu-latest
