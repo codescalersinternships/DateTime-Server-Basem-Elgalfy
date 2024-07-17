@@ -37,3 +37,31 @@ func TestDateTimeHandler(t *testing.T) {
 
 	assert.True(t, responseDateTime.After(expectedDateTime.Add(-5*time.Second)) && responseDateTime.Before(expectedDateTime.Add(5*time.Second)))
 }
+
+func TestContentTypeHeader(t *testing.T) {
+	gin.SetMode(gin.TestMode)
+	r := gin.Default()
+	r.GET("/datetime", GinDateTimeHandler)
+
+	req, err := http.NewRequest("GET", "/datetime", nil)
+	assert.NoError(t, err)
+
+	rr := httptest.NewRecorder()
+	r.ServeHTTP(rr, req)
+
+	assert.Equal(t, rr.Header().Get("Content-Type"), "application/json; charset=utf-8")
+}
+
+func TestInvalidRequestMethod(t *testing.T) {
+	gin.SetMode(gin.TestMode)
+	r := gin.Default()
+	r.GET("/datetime", GinDateTimeHandler)
+
+	req, err := http.NewRequest("POST", "/datetime", nil)
+	assert.NoError(t, err)
+
+	rr := httptest.NewRecorder()
+	r.ServeHTTP(rr, req)
+
+	assert.Equal(t, rr.Code, http.StatusNotFound)
+}

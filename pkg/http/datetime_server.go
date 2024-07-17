@@ -15,6 +15,11 @@ type DateTimeResponse struct {
 
 // DateTimeHandler is the handler for the /datetime endpoint
 func DateTimeHandler(w http.ResponseWriter, r *http.Request) {
+
+	if r.Method != http.MethodGet {
+		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
+		return
+	}
 	currentTime := time.Now()
 	response := DateTimeResponse{
 		Date: currentTime.Format("02-01-2006"),

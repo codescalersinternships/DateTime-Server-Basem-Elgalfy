@@ -6,6 +6,8 @@ import (
 	"net/http/httptest"
 	"testing"
 	"time"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestDateTimeHandler(t *testing.T) {
@@ -40,4 +42,29 @@ func TestDateTimeHandler(t *testing.T) {
 	if responseDateTime.Before(expectedDateTime.Add(-5*time.Second)) || responseDateTime.After(expectedDateTime.Add(5*time.Second)) {
 		t.Errorf("response time is not within 5 seconds of the expected time: got %v want %v", responseDateTime, expectedDateTime)
 	}
+}
+
+func TestInvalidRequestMethod(t *testing.T) {
+
+	req, err := http.NewRequest(http.MethodPost, "/datetime", nil)
+
+	assert.NoError(t, err)
+
+	rr := httptest.NewRecorder()
+	handler := http.HandlerFunc(DateTimeHandler)
+	handler.ServeHTTP(rr, req)
+
+	assert.Equal(t, rr.Code, http.StatusMethodNotAllowed)
+}
+
+func TestContentTypeHeader(t *testing.T) {
+	req, err := http.NewRequest(http.MethodGet, "/datetime", nil)
+	assert.NoError(t, err)
+
+	rr := httptest.NewRecorder()
+	handler := http.HandlerFunc(DateTimeHandler)
+
+	handler.ServeHTTP(rr, req)
+
+	assert.Equal(t, rr.Header().Get("Content-Type"), "application/json")
 }
