@@ -1,0 +1,16 @@
+version: '2'
+services:
+  http:
+    build: 
+      dockerfile: Dockerfile.http
+      context: .
+    image: http
+    ports: 
+      - "5000:8080"
+  gin:
+    build:
+      dockerfile: Dockerfile.gin
+      context: .
+    image: gin 
+    ports:
+      - "5001:8080"
